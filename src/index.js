@@ -96,6 +96,7 @@ const handleSend = async () => {
     const responseTime = new Date(endTime - startTime);
     const redableResponseTime =
       responseTime.getSeconds() * 1000 + responseTime.getMilliseconds() + "ms";
+      console.log("result",result)
     const response = await result.text();
     responseTextArea.innerText = Json(response);
     responseStatusArea.innerText = result.status;
