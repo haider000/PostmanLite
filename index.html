@@ -15,26 +15,20 @@
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css"
     />
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
-
-    <link rel="stylesheet" href="/path/to/styles/default.css" />
-    <script src="/path/to/highlight.min.js"></script>
-    <script>
-      hljs.highlightAll();
-    </script>
+    <link rel="stylesheet" href="styles.css" />
     <title>Postman Lite</title>
   </head>
   <body>
     <div class="container">
       <div class="container-lg px-3 mx-auto">
-        <h2 class="text-center mt-2">Postman Lite</h2>
+        <h2 class="text-center mt-1">Postman Lite</h2>
         <div class="row flex-wrap">
-          <div class="col" style="min-width: 350px">
-            <h3 class="mt-4">Request</h3>
+          <div class="col" style="min-height: 580px;">
+            <h3 class="mt-1">Request</h3>
             <div class="input-group mb-3">
               <select
                 id="requestMethod"
                 class="input-group-text form-select"
-                style="max-width: 80px"
               >
                 <option>GET</option>
                 <option>POST</option>
@@ -44,10 +38,14 @@
               </select>
               <input
                 id="requestUrl"
-                type="url"
+                type="text"
                 class="form-control"
-                placeholder="https://example.com"
+                placeholder="https://api.example.com/v1/users"
+                title="Enter a valid URL (e.g., https://api.example.com/v1/users)"
               />
+              <small class="form-text text-muted url-hint" style="display: none; padding: 5px 0 0 5px; font-size: 12px;">
+                Example: https://jsonplaceholder.typicode.com/posts
+              </small>
               <span class="input-group-text btn btn-success" id="sendRequest">
                 Send
               </span>
@@ -123,18 +121,19 @@
                   <li class="list-group-item d-flex">
                     <input
                       class="me-2"
-                      style="height: 38px; width: 38px"
                       type="checkbox"
                     />
                     <input
                       class="form-control me-1"
                       type="text"
-                      placeholder="key"
+                      placeholder="key (e.g., page)"
+                      title="Query parameter key"
                     />
                     <input
                       class="form-control ms-1"
                       type="text"
-                      placeholder="value"
+                      placeholder="value (e.g., 1)"
+                      title="Query parameter value"
                     />
                   </li>
                   <li class="list-group-item d-flex">
@@ -164,22 +163,37 @@
                     id="basicAuthUsername"
                     type="text"
                     class="form-control mb-2"
-                    placeholder="username"
+                    placeholder="Username"
+                    title="Enter your username for Basic Authentication"
                   />
+                  <small class="form-text text-muted mb-2" style="display: block; font-size: 12px; margin-top: -8px; margin-bottom: 8px !important;">
+                    Example: admin, user, api_user
+                  </small>
                   <input
                     id="basicAuthPassword"
-                    type="text"
+                    type="password"
                     class="form-control"
-                    placeholder="password"
+                    placeholder="Password"
+                    title="Enter your password for Basic Authentication"
                   />
+                  <small class="form-text text-muted" style="display: block; font-size: 12px; margin-top: 5px;">
+                    Your password will be encoded in Base64
+                  </small>
                 </div>
                 <div class="visually-hidden auth-methods" id="bearer-token">
                   <input
                     id="bearerToken"
                     type="text"
                     class="form-control"
-                    placeholder="Bearer Token"
+                    placeholder="Enter your Bearer token"
+                    title="Enter your Bearer token (without 'Bearer' prefix)"
                   />
+                  <small class="form-text text-muted" style="display: block; font-size: 12px; margin-top: 5px;">
+                    Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                  </small>
+                  <small class="form-text text-muted" style="display: block; font-size: 11px; margin-top: 3px; color: #718096;">
+                    Note: The "Bearer" prefix will be added automatically
+                  </small>
                 </div>
               </div>
               <div
@@ -193,18 +207,19 @@
                   <li class="list-group-item d-flex">
                     <input
                       class="me-2"
-                      style="height: 38px; width: 38px"
                       type="checkbox"
                     />
                     <input
                       class="form-control me-1"
                       type="text"
-                      placeholder="parameter"
+                      placeholder="Header name (e.g., Content-Type)"
+                      title="HTTP header name"
                     />
                     <input
                       class="form-control ms-1"
                       type="text"
-                      placeholder="value"
+                      placeholder="Header value (e.g., application/json)"
+                      title="HTTP header value"
                     />
                   </li>
                   <li class="list-group-item d-flex">
@@ -231,53 +246,81 @@
                     id="application-json-data"
                     type="text"
                     class="form-control"
+                    placeholder='{\n  "key": "value",\n  "name": "example"\n}'
+                    title="Enter valid JSON data"
                   ></textarea>
+                  <small class="form-text text-muted" style="display: block; font-size: 12px; margin-top: 5px;">
+                    Enter valid JSON format. Example: {"name": "John", "age": 30}
+                  </small>
                 </div>
                 <div class="visually-hidden body-types" id="text-plain">
                   <textarea
                     id="text-plain-data"
                     type="text"
                     class="form-control"
+                    placeholder="Enter plain text here..."
+                    title="Enter plain text data"
                   ></textarea>
+                  <small class="form-text text-muted" style="display: block; font-size: 12px; margin-top: 5px;">
+                    Enter any plain text content
+                  </small>
                 </div>
                 <div class="visually-hidden body-types" id="application-xml">
                   <textarea
                     id="application-xml-data"
                     type="text"
                     class="form-control"
+                    placeholder='<?xml version="1.0"?>\n<root>\n  <item>value</item>\n</root>'
+                    title="Enter valid XML data"
                   ></textarea>
+                  <small class="form-text text-muted" style="display: block; font-size: 12px; margin-top: 5px;">
+                    Enter valid XML format. Example: &lt;root&gt;&lt;item&gt;value&lt;/item&gt;&lt;/root&gt;
+                  </small>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="col" style="min-width: 350px">
-            <h3 class="mt-4">Response</h3>
-            <div class="d-flex">
-              <div class="me-2">
-                <span>Status: </span>
-                <span id="responseStatus"></span>
+          <div class="col" style="min-height: 580px;">
+            <h3 class="mt-1">Response</h3>
+            <div class="response-info">
+              <div>
+                <span>Status:</span>
+                <span id="responseStatus">-</span>
               </div>
-
-              <div class="me-2">
-                <span>Size: </span>
-                <span id="responseSize"></span>
+              <div>
+                <span>Size:</span>
+                <span id="responseSize">-</span>
               </div>
-
-              <div class="me-2">
-                <span>Time: </span>
-                <span id="responseTime"></span>
+              <div>
+                <span>Time:</span>
+                <span id="responseTime">-</span>
               </div>
             </div>
 
-            <div class="bg-light rounded-lg p-3 mt-2">
-              <pre><code id="responseText" class="language-json">...</code></pre>
+            <div class="response-container">
+              <pre>
+                <code id="responseText" class="language-json"></code>
+              </pre>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
     <script src="src/index.js"></script>
+    <script>
+      // Initialize Highlight.js after page load
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof hljs !== "undefined") {
+          hljs.highlightAll();
+        }
+      });
+    </script>
   </body>
 </html>
